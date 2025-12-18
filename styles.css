@@ -1,0 +1,234 @@
+/* ==========================================================================
+   PHẦN 1: HEADER (THANH MENU TRÊN CÙNG)
+   ========================================================================== */
+
+/* Cái thùng to chứa menu, dùng Flexbox để dàn hàng ngang */
+.header-chung {
+  display: flex; /* Biến thẻ này thành đường băng, các con bên trong xếp hàng ngang */
+  align-items: center; /* Căn giữa theo chiều dọc (để nút và ô tìm kiếm không bị lệch trên lệch dưới) */
+  background-color: black; /* Nền màu đen */
+  padding: 8px; /* Khoảng đệm bên trong cho đỡ bí */
+  color: white; /* Chữ màu trắng */
+}
+
+/* Nút "Trang chủ" */
+.nut-trangchu {
+  background-color: black;
+  color: white;
+  border: none; /* Bỏ viền nút */
+  padding: 8px 15px; /* Tạo độ phồng cho nút */
+  border-radius: 4px; /* Bo tròn nhẹ 4 góc */
+  cursor: pointer; /* Di chuột vào hiện bàn tay */
+}
+
+/* Form tìm kiếm (cách nút trang chủ ra 1 chút) */
+.form-tim-kiem {
+  margin-left: 20px; 
+}
+
+/* KỸ THUẬT ĐẨY NÚT SANG PHẢI:
+   Dùng margin-left: auto trong Flexbox sẽ đẩy phần tử đó dính chặt về bên phải 
+*/
+
+/* Nút Đăng xuất (Màu đỏ) */
+.nut-logout {
+  margin-left: auto; /* Đẩy hết sang phải */
+  background-color: #dc3545; 
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Nút Đăng nhập (Màu xanh dương) */
+.nut-dangnhap {
+  margin-left: auto; /* Đẩy hết sang phải */
+  background-color: #007bff; 
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Nút Đăng ký (Màu xanh lá) - nằm cạnh nút Đăng nhập */
+.nut-dangky {
+  margin-left: 10px; /* Cách nút Đăng nhập bên trái 10px */
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   PHẦN 2: FORM ĐĂNG KÝ / ĐĂNG NHẬP
+   ========================================================================== */
+
+/* Reset mặc định: Giúp tính toán kích thước (padding/border) không làm vỡ khung */
+* {
+  box-sizing: border-box;
+}
+
+/* Style chung cho body */
+.body {
+  background-color: #f8f9fa; /* Màu nền xám rất nhạt cho dịu mắt */
+  font-family: Arial, sans-serif; /* Font chữ cơ bản */
+}
+
+/* KHUNG BAO NGOÀI FORM (Cái hộp to đùng giữa màn hình) */
+.box-login-register {
+  width: 700px; /* Chiều rộng cố định */
+  border: 1px solid #000; /* Viền đen mỏng */
+  background-color: #fff; /* Nền trắng */
+  margin: 0 auto; /* Canh giữa màn hình theo chiều ngang */
+  margin-top: 50px; /* Cách bên trên 50px */
+}
+
+/* THANH TIÊU ĐỀ CỦA FORM (Màu xanh đậm) */
+.header-title {
+  background-color: #0070c0;
+  color: white;
+  padding: 10px 15px;
+  font-weight: bold; /* Chữ đậm */
+  font-size: 16px;
+  text-align: left; /* Chữ nằm bên trái */
+}
+
+/* Khoảng chứa các ô nhập liệu bên trong */
+.form-content {
+  padding: 30px 50px; /* Thụt vào trong cho thoáng */
+}
+
+/* MỖI DÒNG NHẬP LIỆU (Bao gồm Nhãn và Ô input) */
+.form-group {
+  display: flex; /* Xếp nhãn và ô input nằm ngang hàng */
+  align-items: center; /* Căn giữa dọc */
+  margin-bottom: 15px; /* Mỗi dòng cách nhau 15px */
+}
+
+/* NHÃN (Ví dụ: "Tài khoản:", "Mật khẩu:") */
+.form-group label {
+  width: 30%; /* Chiếm 30% chiều rộng dòng */
+  text-align: right; /* Chữ căn lề phải (sát vào ô input) */
+  padding-right: 20px; /* Cách ô input 20px */
+  font-weight: bold;
+  font-size: 14px;
+  color: #000;
+}
+
+/* Ô NHẬP LIỆU (Input) */
+.form-group input {
+  width: 70%; /* Chiếm 70% còn lại */
+  padding: 5px;
+  border: 1px solid #000;
+  outline: none; /* Bỏ viền xanh mặc định khi click vào */
+  font-size: 14px;
+}
+
+/* KHU VỰC CHỨA CÁC NÚT BẤM (Đăng ký/Đăng nhập) */
+.btn-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 30%; /* Đẩy sang phải 30% để thẳng hàng với ô input bên trên */
+  padding-left: 0;
+  margin-top: 20px;
+}
+
+/* Nút Đăng ký chính (Màu xanh đậm) */
+.btn-register {
+  background-color: #0070c0;
+  color: white;
+  border: 1px solid #005090;
+  padding: 8px 30px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Hiệu ứng khi di chuột vào nút Đăng ký */
+.btn-register:hover {
+  background-color: #005090; /* Đậm hơn xíu */
+}
+
+/* Nút chuyển qua Đăng nhập (Màu xám) */
+.btn-login {
+  background-color: #eee;
+  color: #333;
+  border: 1px solid #999;
+  padding: 8px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none; /* Bỏ gạch chân */
+  margin-left: 10px;
+  display: inline-block;
+}
+
+/* Thông báo lỗi (Màu đỏ) */
+.error-msg {
+  text-align: center;
+  color: red;
+  margin-bottom: 15px;
+}
+
+/* Căn chỉnh Google Captcha */
+.g-recaptcha {
+  margin-top: 15px;
+  margin-left: 30%; /* Thẳng hàng với ô input */
+}
+
+/* ==========================================================================
+   PHẦN 3: GIAO DIỆN PHÒNG TRỌ / DASHBOARD
+   ========================================================================== */
+
+/* Chữ màu cam đậm (Dùng cho tiêu đề nhỏ) */
+.text-orange {
+  color: #d35400;
+  font-weight: bold;
+}
+
+/* Chữ giá tiền (Màu đỏ, to hơn chút) */
+.text-price {
+  color: #c0392b;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+/* THẺ CARD CHỨA THÔNG TIN PHÒNG */
+.room-card {
+  background: #fff;
+  border-bottom: 1px solid #eee; /* Gạch chân mờ dưới mỗi phòng */
+  padding: 15px;
+  margin-bottom: 15px;
+  transition: 0.3s; /* Tạo độ mượt khi hover */
+}
+
+/* Hiệu ứng khi di chuột vào thẻ phòng */
+.room-card:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Đổ bóng nổi lên */
+  transform: translateY(-2px); /* Nhấc nhẹ lên trên 2px */
+}
+
+/* Ảnh nhỏ đại diện của phòng (Thumbnail) */
+.room-img-thumb {
+  width: 100%;
+  height: 130px; /* Cố định chiều cao để các ảnh bằng nhau */
+  object-fit: cover; /* Cắt ảnh vừa khung, không bị méo */
+  border-radius: 4px;
+}
+
+/* Nhãn dán (Ví dụ: Mới, Hot...) */
+.badge-custom {
+  position: absolute; /* Đè lên ảnh */
+  top: 10px;
+  left: 10px;
+  background: #e67e22;
+  color: white;
+  padding: 2px 8px;
+  font-size: 0.75rem; /* Chữ nhỏ */
+}
+
+/* Tiêu đề từng

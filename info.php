@@ -6,70 +6,56 @@ if(!isset($_SESSION['user_id'])) { header("Location: login.php"); exit(); }
 $user_id = $_SESSION["user_id"];
 $msg = "";
 
-// --- 1. XỬ LÝ: XÓA BÀI ĐĂNG (PHÒNG TRỌ) ---
 if(isset($_GET['del_room'])){
     $room_id = intval($_GET['del_room']);
     $check_owner = mysqli_query($conn, "SELECT * FROM motel WHERE ID = $room_id AND user_id = $user_id");
     if(mysqli_num_rows($check_owner) > 0){
-        // Xóa phòng thì xóa luôn các yêu cầu liên quan (Do database có ON DELETE CASCADE rồi nên ko cần xóa tay)
         mysqli_query($conn, "DELETE FROM motel WHERE ID = $room_id");
         echo "<script>alert('Đã xóa bài đăng!'); window.location.href='info.php';</script>";
     }
 }
 
-// --- 2. XỬ LÝ: CHỐT KHÁCH (Đã LH -> Khóa phòng) ---
 if(isset($_GET['confirm_req'])){
     $req_id = intval($_GET['confirm_req']);
     
-    // Lấy ID phòng
     $get_req = mysqli_query($conn, "SELECT motel_id FROM rental_requests WHERE id = $req_id AND owner_id = $user_id");
     
     if(mysqli_num_rows($get_req) > 0){
         $r = mysqli_fetch_assoc($get_req);
         $mid = $r['motel_id'];
         
-        // B1: Đánh dấu yêu cầu là Đã chốt (status = 1)
         mysqli_query($conn, "UPDATE rental_requests SET status = 1 WHERE id = $req_id");
         
-        // B2: TỰ ĐỘNG KHÓA PHÒNG (approve = 5: Đã thuê)
         mysqli_query($conn, "UPDATE motel SET approve = 5 WHERE ID = $mid");
         
         echo "<script>alert('Đã chốt khách! Phòng đã chuyển sang trạng thái ĐÃ THUÊ.'); location.href='info.php';</script>";
     }
 }
 
-// --- 3. XỬ LÝ: HỦY KÈO / KHÁCH BÙNG (Hủy LH -> Mở lại phòng) ---
 if(isset($_GET['cancel_deal'])){
     $req_id = intval($_GET['cancel_deal']);
     
-    // Lấy ID phòng
     $get_req = mysqli_query($conn, "SELECT motel_id FROM rental_requests WHERE id = $req_id AND owner_id = $user_id");
     
     if(mysqli_num_rows($get_req) > 0){
         $r = mysqli_fetch_assoc($get_req);
         $mid = $r['motel_id'];
         
-        // B1: Đưa yêu cầu về trạng thái Mới (status = 0) hoặc Xóa (tùy bạn, ở đây mình để về 0 để biết khách này từng hủy)
         mysqli_query($conn, "UPDATE rental_requests SET status = 0 WHERE id = $req_id");
         
-        // B2: TỰ ĐỘNG MỞ LẠI PHÒNG (approve = 4: Còn phòng)
         mysqli_query($conn, "UPDATE motel SET approve = 4 WHERE ID = $mid");
         
         echo "<script>alert('Đã hủy chốt! Phòng hiện đã CÒN TRỐNG trở lại.'); location.href='info.php';</script>";
     }
 }
 
-// --- 4. XỬ LÝ: XÓA YÊU CẦU (Nút X màu đỏ) ---
 if(isset($_GET['del_req'])){
     $req_id = intval($_GET['del_req']);
     
-    // Trước khi xóa, kiểm tra xem yêu cầu này có đang giữ phòng (status=1) không
-    // Nếu đang chốt mà xóa yêu cầu -> Phòng phải mở lại
     $check_st = mysqli_query($conn, "SELECT status, motel_id FROM rental_requests WHERE id = $req_id AND owner_id = $user_id");
     if(mysqli_num_rows($check_st) > 0){
         $row_st = mysqli_fetch_assoc($check_st);
         if($row_st['status'] == 1) {
-            // Nếu đang chốt mà xóa -> Mở lại phòng
              mysqli_query($conn, "UPDATE motel SET approve = 4 WHERE ID = " . $row_st['motel_id']);
         }
     }
@@ -78,7 +64,6 @@ if(isset($_GET['del_req'])){
     echo "<script>alert('Đã xóa yêu cầu!'); location.href='info.php';</script>";
 }
 
-// (Các xử lý Upload, Info, Pass giữ nguyên)
 if(isset($_POST['upload'])){
     if(isset($_FILES['avatar']) && $_FILES['avatar']['error'] == 0){
         $allowed = ['image/jpeg', 'image/png', 'image/gif'];
@@ -111,7 +96,6 @@ $user = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM users WHERE id = $
 $avatar = !empty($user['avatar']) ? "avatar/".$user['avatar'] : "https://placehold.co/150";
 $my_rooms = mysqli_query($conn, "SELECT * FROM motel WHERE user_id = $user_id ORDER BY created_at DESC");
 
-// Lấy danh sách yêu cầu thuê
 $requests = mysqli_query($conn, "
     SELECT r.id as req_id, r.created_at, r.status, u.name as renter_name, u.phone as renter_phone, m.title as room_title
     FROM rental_requests r
@@ -120,7 +104,6 @@ $requests = mysqli_query($conn, "
     WHERE r.owner_id = $user_id
     ORDER BY r.status DESC, r.created_at DESC 
 "); 
-// Sắp xếp: Đã chốt (1) lên đầu để dễ quản lý, sau đó mới đến mới nhất
 ?>
 
 <!DOCTYPE html>

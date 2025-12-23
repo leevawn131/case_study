@@ -3,11 +3,11 @@
 if (isset($_GET['action']) && isset($_GET['id'])) {
     $id = intval($_GET['id']);
     if ($_GET['action'] == 'approve') {
-        mysqli_query($conn, "UPDATE motel SET approve = 1 WHERE id = $id");
+        mysqli_query($conn, "UPDATE motel SET approve = 4 WHERE id = $id");
         echo "<script>location.href='rooms.php';</script>";
     }
     if ($_GET['action'] == 'hide') {
-        mysqli_query($conn, "UPDATE motel SET approve = 0 WHERE id = $id");
+        mysqli_query($conn, "UPDATE motel SET approve = 3 WHERE id = $id");
         echo "<script>location.href='rooms.php';</script>";
     }
     if ($_GET['action'] == 'delete') {

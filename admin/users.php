@@ -1,7 +1,10 @@
 <?php include 'header_admin.php'; 
 
 if (isset($_POST['add_user'])) {
-    $u = $_POST['username']; $p = $_POST['password']; $n = $_POST['name']; $e = $_POST['email'];
+    $u = $_POST['username']; 
+    $p = $_POST['password']; 
+    $n = $_POST['name']; 
+    $e = $_POST['email'];
     $check = mysqli_query($conn, "SELECT * FROM users WHERE username='$u'");
     if(mysqli_num_rows($check) > 0) echo "<script>alert('Tên user đã tồn tại!');</script>";
     else {
@@ -16,7 +19,8 @@ if (isset($_GET['del'])) {
     echo "<script>location.href='users.php';</script>";
 }
 if (isset($_POST['reset_pass'])) {
-    $uid = $_POST['user_id']; $new = $_POST['new_pass'];
+    $uid = $_POST['user_id']; 
+    $new = $_POST['new_pass'];
     mysqli_query($conn, "UPDATE users SET password = '$new' WHERE id = $uid");
     echo "<script>alert('Đã đổi mật khẩu!'); location.href='users.php';</script>";
 }

@@ -38,7 +38,8 @@ include("connect.php");
                     WHERE m.title LIKE '%$search%' 
                        OR m.address LIKE '%$search%' 
                        OR d.name LIKE '%$search%'
-                       OR m.area LIKE '%$search%'";
+                       OR m.area LIKE '%$search%'
+                       OR m.price LIKE '%$search%'";
             
             $result = mysqli_query($conn, $sql);
             

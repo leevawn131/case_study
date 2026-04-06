@@ -30,19 +30,6 @@ if (isset($_GET['price_max']) && !empty($_GET['price_max'])) {
     $where .= " AND m.price <= $max";
 }
 
-if (isset($_GET['action']) && isset($_GET['id'])) {
-    $id = intval($_GET['id']);
-    
-    if ($_GET['action'] == 'approve') {
-        mysqli_query($conn, "UPDATE motel SET approve = 4 WHERE id = $id");
-        echo "<script>location.href='rooms.php';</script>";
-    }
-    if ($_GET['action'] == 'hide') {
-        mysqli_query($conn, "UPDATE motel SET approve = 3 WHERE id = $id");
-        echo "<script>location.href='rooms.php';</script>";
-    }
-}
-
 $sql = "SELECT m.*, u.username, u.name as fullname 
         FROM motel m 
         JOIN users u ON m.user_id = u.id 

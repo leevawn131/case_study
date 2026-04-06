@@ -26,8 +26,9 @@ if(isset($_POST['register'])){
         
         $checkUserQuery = "SELECT * FROM users WHERE username='$username'";
         $result = mysqli_query($conn, $checkUserQuery);
-        
-        if(mysqli_num_rows($result) > 0){
+        if(empty($username) || empty($password) || empty($email) || empty($repass) || empty($displayname)){
+            $error = "Vui lòng nhập đầy đủ thông tin!";
+        } else if(mysqli_num_rows($result) > 0){
             $error = "Tên đăng nhập đã tồn tại. Vui lòng chọn tên khác.";
         } else if (strlen($password) < 6){
             $error = "Mật khẩu phải ít nhất 6 kí tự.";

@@ -88,9 +88,9 @@ if (isset($_POST['login'])) {
         <?php include ("header.php"); ?>
         <div class="box-login-register">
             <div class="header-title">Đăng nhập</div>
-            <div class="form-content">
+                <div class="form-content">
                 <?php if(isset($error)) echo "<p class='error-msg'>$error</p>"; ?>
-            <form method="post">
+                <form method="post">
                 <div class="form-group">
                     <label>Tài khoản:</label>
                     <input type="text" name="username" required>
@@ -102,12 +102,17 @@ if (isset($_POST['login'])) {
                 <?php if ($_SESSION['login_fail'] >= 3): ?>
                     <div class="g-recaptcha" data-sitekey="<?php echo $site_key; ?>"></div>
                 <?php endif; ?>
-                <div class="btn-wrapper">
-                    <button type="submit" name="login" class="btn-register">Đăng nhập</button>
+                <div class="btn-wrapper" style="flex-wrap: wrap;"> <button type="submit" name="login" class="btn-register">Đăng nhập</button>
                     <a href="register.php" class="btn-login">Đăng kí</a>
                 </div>
+
+                <div style="margin-top: 15px; text-align: center;">
+                    <a href="forgot_password.php" style="color: #d35400; text-decoration: none; font-size: 14px;">
+                    <i class="fa-solid fa-lock"></i> Quên mật khẩu?
+                    </a>
+                </div>
             </form>
-            </div>
+            </div>            
         </div>
 </body>
 </html>

@@ -43,7 +43,7 @@ if (!$detail_room) {
                  LEFT JOIN districs d ON m.district_id = d.id 
                  LEFT JOIN categories c ON m.category_id = c.id 
                  LEFT JOIN users u ON m.user_id = u.id 
-                 WHERE m.approve IN (4, 5) AND (m.address LIKE '%Vinh%' OR m.address LIKE '%Bến Thủy%') LIMIT 4";
+                 WHERE m.approve IN (4, 5) AND (m.address LIKE '%Vinh%' OR d.name LIKE '%Bến Thủy%') LIMIT 4";
     $res_near = mysqli_query($conn, $sql_near);
 }
 ?>

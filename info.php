@@ -3,8 +3,8 @@ session_start();
 include("connect.php");
 
 if(!isset($_SESSION['user_id'])) { header("Location: login.php"); exit(); }
-$user_id = $_SESSION["user_id"];
-$msg = "";
+    $user_id = $_SESSION["user_id"];
+    $msg = "";
 
 if(isset($_GET['del_room'])){
     $room_id = intval($_GET['del_room']);
@@ -17,41 +17,30 @@ if(isset($_GET['del_room'])){
 
 if(isset($_GET['confirm_req'])){
     $req_id = intval($_GET['confirm_req']);
-    
     $get_req = mysqli_query($conn, "SELECT motel_id FROM rental_requests WHERE id = $req_id AND owner_id = $user_id");
-    
     if(mysqli_num_rows($get_req) > 0){
         $r = mysqli_fetch_assoc($get_req);
         $mid = $r['motel_id'];
-        
         mysqli_query($conn, "UPDATE rental_requests SET status = 1 WHERE id = $req_id");
-        
         mysqli_query($conn, "UPDATE motel SET approve = 5 WHERE ID = $mid");
-        
         echo "<script>alert('Đã chốt khách! Phòng đã chuyển sang trạng thái ĐÃ THUÊ.'); location.href='info.php';</script>";
     }
 }
 
 if(isset($_GET['cancel_deal'])){
     $req_id = intval($_GET['cancel_deal']);
-    
     $get_req = mysqli_query($conn, "SELECT motel_id FROM rental_requests WHERE id = $req_id AND owner_id = $user_id");
-    
     if(mysqli_num_rows($get_req) > 0){
         $r = mysqli_fetch_assoc($get_req);
         $mid = $r['motel_id'];
-        
         mysqli_query($conn, "UPDATE rental_requests SET status = 0 WHERE id = $req_id");
-        
         mysqli_query($conn, "UPDATE motel SET approve = 4 WHERE ID = $mid");
-        
         echo "<script>alert('Đã hủy chốt! Phòng hiện đã CÒN TRỐNG trở lại.'); location.href='info.php';</script>";
     }
 }
 
 if(isset($_GET['del_req'])){
     $req_id = intval($_GET['del_req']);
-    
     $check_st = mysqli_query($conn, "SELECT status, motel_id FROM rental_requests WHERE id = $req_id AND owner_id = $user_id");
     if(mysqli_num_rows($check_st) > 0){
         $row_st = mysqli_fetch_assoc($check_st);
@@ -59,7 +48,6 @@ if(isset($_GET['del_req'])){
              mysqli_query($conn, "UPDATE motel SET approve = 4 WHERE ID = " . $row_st['motel_id']);
         }
     }
-
     mysqli_query($conn, "DELETE FROM rental_requests WHERE id = $req_id AND owner_id = $user_id");
     echo "<script>alert('Đã xóa yêu cầu!'); location.href='info.php';</script>";
 }
@@ -85,7 +73,9 @@ if(isset($_POST['update_info'])){
     if(mysqli_query($conn, "UPDATE users SET name='$fullname', phone='$phone', email='$email' WHERE id=$user_id")) $msg = "Cập nhật thành công!";
 }
 if(isset($_POST['change_pass'])){
-    $old = $_POST['old_pass']; $new = $_POST['new_pass']; $confirm = $_POST['confirm_pass'];
+    $old = $_POST['old_pass']; 
+    $new = $_POST['new_pass']; 
+    $confirm = $_POST['confirm_pass'];
     $user_check = mysqli_fetch_assoc(mysqli_query($conn, "SELECT password FROM users WHERE id=$user_id"));
     if($user_check['password'] != $old) $msg = "Mật khẩu cũ sai.";
     elseif($new != $confirm) $msg = "Mật khẩu xác nhận không khớp.";
